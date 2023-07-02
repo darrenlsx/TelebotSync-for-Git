@@ -124,11 +124,13 @@ def handle_delete_event(message):
             
             for i in range(0, len(events_to_delete)):
                 if (int(events_to_delete[i]) <= 0 or int(events_to_delete[i]) > len(filtered_id_list)):
-                    bot.send_message(message.chat.id, "Sorry number: {} not found :( type /delete again to continue deleting".format(events_to_delete[i]))
+                    bot.send_message(message.chat.id, "Sorry number: {} not found :(".format(events_to_delete[i]))
                     print(events_to_delete[i])
                 else:
                     service.events().delete(calendarId='primary', eventId=filtered_id_list[int(events_to_delete[i])-1]).execute()
                     bot.send_message(message.chat.id, "Okai deleted number: {}".format(events_to_delete[i]))
+            
+            bot.send_message(message.chat.id, "Enter /delete again if you wish to continue deleting")
 
         bot.register_next_step_handler(reply_index, delete_event_handler)
 

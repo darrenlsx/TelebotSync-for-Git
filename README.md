@@ -67,7 +67,7 @@ Agenda: Filming at MBS
 
 User will be asked to choose a song title to be deleted from Google Calendar. 
 
-User will then be given a list of dates and times that are under the song title and will then choose a number to delete.
+User will then be given a list of dates and times that are under the song title and will then choose a number/numbers to delete.
 
 Example of Usage:
 
@@ -78,6 +78,33 @@ Input:
 Expected Output:
 
 `Which song title you want to delete from?`
+
+Input:
+
+`testsong`
+
+Expected Output:
+
+```
+1) 01/07 at 2.00pm - 4.00pm
+2) 02/07 at 2.00pm - 4.00pm
+3) 05/07 at 1.00pm - 3.00pm
+
+Which number do you want to delete?
+```
+
+Input:
+
+`2,3`
+
+Expected Output:
+
+```
+Okai deleted number: 2
+
+Okai deleted number: 3
+```
+
 
 ---
 *Created by: @darrenlsx and Yukesh*
