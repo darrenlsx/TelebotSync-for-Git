@@ -9,6 +9,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from database.database_handler import Firebase
+
 ## Set up Telegram Bot
 import telebot
 from telebot import types
