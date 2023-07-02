@@ -116,7 +116,7 @@ def handle_delete_event(message):
             return
 
         bot.send_message(message.chat.id, message_list)
-        reply_index = bot.send_message(message.chat.id, "Which number do you want to delete?")
+        reply_index = bot.send_message(message.chat.id, "Which number do you want to delete? To delete multiple dates use comma to separate, for eg: [number],[number],...")
 
         # Deletes the event
         def delete_event_handler(message):
