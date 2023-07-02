@@ -90,7 +90,8 @@ Expected Output:
 2) 02/07 at 2.00pm - 4.00pm
 3) 05/07 at 1.00pm - 3.00pm
 
-Which number do you want to delete?
+Which number do you want to delete? To delete multiple dates use comma to separate, for eg: [number],[number],...
+
 ```
 
 Input:
