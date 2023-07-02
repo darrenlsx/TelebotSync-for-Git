@@ -9,12 +9,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-from database.database_handler import Firebase
+from database_handler import Firebase
+from util import Event
 
 ## Set up Telegram Bot
 import telebot
 from telebot import types
-TOKEN = ""
+TOKEN = "6202926078:AAFT8f1aoe7cW9zeOFpfHXjXySsYalzqgoc"
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
 
 ## Set up Google API
@@ -40,6 +41,12 @@ if not creds or not creds.valid:
         token.write(creds.to_json())
 
 service = build('calendar', 'v3', credentials=creds)
+db = Firebase()
+
+@bot.message_handler(commands=['start'])
+def welcome_message(message):
+    bot.send_message(message.chat.id, "Hello, welcome to N.Trance Sync, enter /menu to begin :>")
+    db.get_or_create_user(message.chat.id)
 
 # List of Commands
 @bot.message_handler(commands=['add'])
@@ -48,14 +55,13 @@ def create_event(message):
     def get_song_name(message):
         global song_name
         song_name = message.text
-        print(song_name)
+        
+        db.get_or_create_song(song_name)        
+        
         bot.send_message(message.chat.id, "Okai adding for song title: {}\n\nPlease type in the dates in the proper format\nDate: DD/MM _(day)_\nTime: HH.MMam/pm - HH.MMam/pm\nCMI:\nAgenda:\n\nYou may leave CMI or Agenda empty.\nThe (day) is optional, doesnt affect the bot, just for your ez ref if want to paste in grpchat.\nIf you need an example enter /eg and go back to /add again to continue.\nYou can copy the below message to get started.".format(song_name), parse_mode="Markdown")
         bot.send_message(message.chat.id, "Date:\nTime:\nCMI:\nAgenda:\n ")
+        
     bot.register_next_step_handler(reply, get_song_name)
-
-@bot.message_handler(commands=['start'])
-def welcome_message(message):
-    bot.send_message(message.chat.id, "Hello, welcome to N.Trance Sync, enter /menu to begin :>")
 
 @bot.message_handler(commands=['menu'])
 def handle_m(message):
@@ -71,14 +77,14 @@ def handle_m(message):
 
     bot.send_message(message.chat.id, commands,reply_markup=keyboard)
 
-@bot.callback_query_handler(func=lambda c:True)
-def handle_menu_click(c):
-    if (c.data == "add"):
-        create_event(c.message)
-    elif (c.data == "eg"):
-        example_message(c.message)
-    elif (c.data == "delete"):
-        delete_event(c.message)
+# @bot.callback_query_handler(func=lambda c:True)
+# def handle_menu_click(c):
+#     if (c.data == "add"):
+#         create_event(c.message)
+#     elif (c.data == "eg"):
+#         example_message(c.message)
+#     elif (c.data == "delete"):
+#         delete_event(c.message)
 
 @bot.message_handler(commands=['eg'])
 def example_message(message):
@@ -201,6 +207,9 @@ def handle_message(text, message):
                 },
             }
             service.events().insert(calendarId='primary', body=event).execute()
+            
+            db.create_event(event)
+            
             bot.send_message(message.chat.id, "Okay added into calendar")
             print(event)
     except (HttpError, IndexError) as error:
@@ -238,15 +247,5 @@ def parse_time(time):
         hr = str(int(hr) + 12)
 
     return [hr, mins]
-
-class Event:
-    def __init__(self, date, time, cmi, agenda):
-        self.date = date
-        self.time = time
-        self.cmi = cmi
-        self.agenda = agenda
-
-    def to_string(self):
-        print(self.date, self.time, self.cmi, self.agenda)
 
 bot.infinity_polling()
