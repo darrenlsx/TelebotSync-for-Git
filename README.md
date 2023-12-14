@@ -33,7 +33,7 @@ User will be asked to key in a song title which will be the main title for the e
 The user will then type in the events that will be added into Google Calendar in the following format:
 
 ```
-Date: DD/MM
+Date: DD/MM/YY
 Time: HH.MMam/pm - HH.MMam/pm
 CMI:
 Agenda:
@@ -52,12 +52,12 @@ Input:
 Expected Output:
 
 ```
-Date: 01/02
+Date: 01/02/23
 Time: 9.00am - 10.30pm
 CMI: IU :/ she'll come after 8pm (hopefully)
 Agenda: Clean till chorus
 
-Date: 02/02
+Date: 02/02/23
 Time: 10.00am - 12.00pm
 CMI: Full crew
 Agenda: Filming at MBS
@@ -86,9 +86,9 @@ Input:
 Expected Output:
 
 ```
-1) 01/07 at 2.00pm - 4.00pm
-2) 02/07 at 2.00pm - 4.00pm
-3) 05/07 at 1.00pm - 3.00pm
+1) 01/07/23 at 2.00pm - 4.00pm
+2) 02/07/23 at 2.00pm - 4.00pm
+3) 05/07/23 at 1.00pm - 3.00pm
 
 Which number do you want to delete? To delete multiple dates use comma to separate, for eg: [number],[number],...
 
@@ -108,4 +108,4 @@ Okai deleted number: 3
 
 
 ---
-*Created by: @darrenlsx and Yukesh*
+*Created by: @darrenlsx and @yukesh2000*
